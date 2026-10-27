@@ -150,7 +150,7 @@ def browse(stdscr, root, revision=None):
                 selected = max(0, selected - 1)
             elif key in (curses.KEY_DOWN, ord("j")):
                 selected = min(max(0, len(visible) - 1), selected + 1)
-            elif key in (curses.KEY_RIGHT, 10, 13, curses.KEY_ENTER):
+            elif key in (curses.KEY_RIGHT, 10, 13, curses.KEY_ENTER, ord("l")):
                 if visible and visible[selected].endswith("/"):
                     name = visible[selected]
                     stack.append((current, selected))
@@ -160,7 +160,7 @@ def browse(stdscr, root, revision=None):
                 elif visible:
                     url = child_url(current, visible[selected])
                     message = "Selected: " + url
-            elif key in (curses.KEY_LEFT, curses.KEY_BACKSPACE, 8, 127):
+            elif key in (curses.KEY_LEFT, curses.KEY_BACKSPACE, 8, 127, ord("h")):
                 if stack:
                     current, selected = stack.pop()
                     break
@@ -174,20 +174,20 @@ def browse(stdscr, root, revision=None):
                         "Copied: " + url if copy_text(url)
                         else "Clipboard unavailable. Selected URL: " + url
                     )
-            elif key == ord("/"):
-                curses.echo()
-                curses.curs_set(1)
-                stdscr.addstr(height - 1, 0, "/")
-                raw = stdscr.getstr(height - 1, 1, max(1, width - 2))
-                curses.noecho()
-                curses.curs_set(0)
-                query = raw.decode(errors="replace").strip().lower()
-                visible = [e for e in entries if query in e.lower()]
-                selected = 0
-            elif key in (curses.KEY_HOME, ord("g")):
-                selected = 0
-            elif key in (curses.KEY_END, ord("G")):
-                selected = max(0, len(visible) - 1)
+            # elif key == ord("/"):
+            #     curses.echo()
+            #     curses.curs_set(1)
+            #     stdscr.addstr(height - 1, 0, "/")
+            #     raw = stdscr.getstr(height - 1, 1, max(1, width - 2))
+            #     curses.noecho()
+            #     curses.curs_set(0)
+            #     query = raw.decode(errors="replace").strip().lower()
+            #     visible = [e for e in entries if query in e.lower()]
+            #     selected = 0
+            # elif key in (curses.KEY_HOME, ord("g")):
+            #     selected = 0
+            # elif key in (curses.KEY_END, ord("G")):
+            #     selected = max(0, len(visible) - 1)
 
 
 def main():
